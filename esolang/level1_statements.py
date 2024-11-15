@@ -128,11 +128,9 @@ class Interpreter(esolang.level0_arithmetic.Interpreter):
     def if_statement(self, tree):
         condition = self.visit(tree.children[0])
         if condition == 0:
-            branch_true = self.visit(tree.children[1])
-            return branch_true
+            return self.visit(tree.children[1])
         else:
-            branch_false = self.visit(tree.children[2])
-            return branch_false
+            return self.visit(tree.children[2])
 
     def assign_var(self, tree):
         name = tree.children[0].value
@@ -146,6 +144,7 @@ class Interpreter(esolang.level0_arithmetic.Interpreter):
 
     def block(self, tree):
         self.stack.append({})
-        res = self.visit(tree.children[0])
+        for child in tree.children:
+            result = self.visit(child)
         self.stack.pop()
-        return res
+        return result

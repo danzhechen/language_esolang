@@ -55,6 +55,7 @@ class Interpreter(esolang.level1_statements.Interpreter):
         varname = tree.children[0].value
         xs = self.visit(tree.children[1])
         self.stack.append({})
+        result = None
         for x in xs:
             self.stack[-1][varname] = x
             result = self.visit(tree.children[2])

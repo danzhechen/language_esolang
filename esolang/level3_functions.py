@@ -53,6 +53,27 @@ class Interpreter(esolang.level2_loops.Interpreter):
     7
     10
     10
+    >>> interpreter.visit(parser.parse("prime(2) ? 0 : print(2);"))
+    2
+    >>> interpreter.visit(parser.parse("for i in range(10) {prime(i) ? 0 : print(i)};"))
+    2
+    3
+    5
+    7
+    >>> interpreter.visit(parser.parse("for i in range(5) {prime(i) ? 0 : print(i)};"))
+    2
+    3
+    >>> interpreter.visit(parser.parse("for i in range(30) {prime(i) ? 0 : print(i)};"))
+    2
+    3
+    5
+    7
+    11
+    13
+    17
+    19
+    23
+    29
     '''
     def __init__(self):
         super().__init__()
@@ -62,7 +83,7 @@ class Interpreter(esolang.level2_loops.Interpreter):
         # all lower levels will be for user-defined functions/variables
         # the stack() function will only print the user defined functions
         self.stack.append({})
-        self.stack[0]['print'] = lambda *args: (print(*args), '')[1]
+        self.stack[0]['print'] = print
         self.stack[0]['stack'] = lambda: pprint.pprint(self.stack[1:])
 
         def is_prime(n):
